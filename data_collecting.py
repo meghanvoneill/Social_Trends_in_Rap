@@ -4,7 +4,7 @@ import lyricsgenius as lg
 
 ACCESS_TOKEN = ' '
 
-file = open("/Users/meghanvoneill/PycharmProjects/Music_Project/Social_Trends_in_Rap/data/auto_.txt", "w")
+file = open("data/auto_.txt", "w")
 
 genius = lg.Genius(' ', skip_non_songs=True,
                    excluded_terms=["(Remix)", "(Live)"], remove_section_headers=True)
