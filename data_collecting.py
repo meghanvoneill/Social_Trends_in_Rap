@@ -4,6 +4,7 @@ import lyricsgenius as lg
 import urllib
 from bs4 import BeautifulSoup
 from datetime import datetime
+from datetime import date
 
 
 # Borrowed from Ekene A. published in Towards Data Science:
@@ -145,27 +146,33 @@ def gather_artist_data_from_billboard(date=''):
     return artists_found
 
 
-def gather_song_data_from_billboard(date=''):
+def gather_song_data_from_billboard(date_given=''):
     """ Scrapes Billboard.com's R&B song charts for the top 25 songs for a given date,
         or for the current date, if none is given.
 
         Earliest date available on Billboard.com is '2012-10-20'.
     """
 
-    try:
-        date_time = datetime.strptime(date, '%Y-%m-%d').date()
-    except:
-        print('Error: Improper date format.')
-        return []
-    min_date = datetime.strptime('2012-10-20', '%Y-%m-%d').date()
-    if date_time < min_date:
-        print('Error: Cannot accept dates before \'2012-10-20\'')
-        return []
+    # If date is empty, fill in today's date.
+    if date_given == '':
+        date_time = date.today()
+    # Otherwise, try to format the date.
+    else:
+        try:
+            date_time = datetime.strptime(date_given, '%Y-%m-%d').date()
+        except:
+            print('Error: Improper date format.')
+            return []
+        # Check if the date meets the minimum date available by Billboard records.
+        min_date = datetime.strptime('2012-10-20', '%Y-%m-%d').date()
+        if date_time < min_date:
+            print('Error: Cannot accept dates before \'2012-10-20\'')
+            return []
 
-    url = 'https://www.billboard.com/charts/r-and-b-songs/'
+    url = 'https://www.billboard.com/charts/r-and-b-songs/' + str(date_time) + '/'
 
-    if date != '':
-        url += date + '/'
+    # if date != '':
+    #     url += date + '/'
 
     querystring = {}  # {"range": "1-10", "date": "2019-05-11"}
 
@@ -240,10 +247,13 @@ def main():
 
     # combine_data_types(k=3, date='2012-10-25')
 
-    artists = ['Rhianna']   # ['Beyoncé', 'Rhianna', 'Doja Cat']
-    k = 3
+    # artists = ['Rhianna']   # ['Beyoncé', 'Rhianna', 'Doja Cat']
+    # k = 3
+    #
+    # gather_lyric_data_from_genius_api(artists, k)
 
-    gather_lyric_data_from_genius_api(artists, k)
+    songs_found = gather_song_data_from_billboard()
+    print(songs_found)
 
     return
 
