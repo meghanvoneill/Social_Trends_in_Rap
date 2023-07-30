@@ -1,11 +1,17 @@
 from data_collecting import *
-from flask import Flask
+from flask import Flask, render_template
 app = Flask(__name__)
 
 
 @app.route('/')
 def hello_world():
-    return 'Hi Mom!!! <3'
+    artists = ['Rhianna']   # ['Beyoncé', 'Rhianna', 'Doja Cat']
+    k = 3
+
+    # result = gather_lyric_data_from_genius_api(artists, k)
+    # return str(result)
+
+    return render_template('index.html')
 
 
 # def main():

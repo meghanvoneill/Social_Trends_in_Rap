@@ -25,13 +25,15 @@ def gather_lyric_data_from_genius_api(arr, k):
     print(result)
     print(result.content)
 
-    for name in arr:
-        artist_search_url = search_url
-        artist_search_url += '?q=' + urllib.parse.quote_plus(name)
-        print(artist_search_url)
+    return result
 
-        result = requests.get(artist_search_url, headers=headers)
-        print(result)
+    # for name in arr:
+    #     artist_search_url = search_url
+    #     artist_search_url += '?q=' + urllib.parse.quote_plus(name)
+    #     print(artist_search_url)
+    #
+    #     result = requests.get(artist_search_url, headers=headers)
+    #     print(result)
 
     # file = open("data/auto_.txt", "w")
     # genius = lg.Genius(' ', skip_non_songs=True,
@@ -236,7 +238,12 @@ def combine_data_types(k, date=''):
 
 def main():
 
-    combine_data_types(k=3, date='2012-10-25')
+    # combine_data_types(k=3, date='2012-10-25')
+
+    artists = ['Rhianna']   # ['Beyoncé', 'Rhianna', 'Doja Cat']
+    k = 3
+
+    gather_lyric_data_from_genius_api(artists, k)
 
     return
 
